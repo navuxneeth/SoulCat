@@ -1,4 +1,4 @@
-# SoulCat: Find Your Soul Cat 🐱
+# SoulCat: Find Your Soul Cat
 
 An interactive, real-time interface that helps you find your perfect cat breed based on personality and behavioral traits.
 
@@ -10,7 +10,7 @@ An interactive, real-time interface that helps you find your perfect cat breed b
 
 ---
 
-## ✨ About The Project
+## About The Project
 
 This project is an interactive dashboard that allows users to adjust sliders for various feline personality traits (like Fearfulness, Playfulness, and Human Sociability) and select common behaviors. As you adjust the controls, the application uses an interpolation algorithm to calculate and recommend the cat breed that best matches your preferences in real-time.
 
@@ -25,7 +25,7 @@ The interface is designed to be intuitive and engaging, providing a fun way to e
 
 ---
 
-## 🎨 Figma Prototype & Design Process
+## Figma Prototype & Design Process
 
 You can view our detailed Figma prototype, which includes additional visualizations like correlation graphs and radar charts, to see the full design process and concept. All illustrations used in the project are handmade!
 
@@ -35,7 +35,7 @@ You can view our detailed Figma prototype, which includes additional visualizati
 
 ---
 
-## 📊 Dataset and Citation
+## Dataset and Citation
 
 This visualization is based on a subset of data from a comprehensive feline behavior and personality survey. The original dataset contained information on over 4,300 cats. For this project, we selected data for approximately 1,528 cats across 7 distinct breeds to focus our visualization.
 
@@ -47,7 +47,7 @@ We extend our sincere gratitude to the authors of the original dataset for makin
 
 ---
 
-## 🧑‍💻 Creators
+## Creators
 
 This project was created by a team of students from MIT Institute of Design (UXD).
 
@@ -58,6 +58,6 @@ This project was created by a team of students from MIT Institute of Design (UXD
 
 ---
 
-## ⚖️ License
+## License
 
 This project is licensed under the MIT License - see the `LICENSE` file for details.
