@@ -2,11 +2,10 @@
 
 An interactive, real-time interface that helps you find your perfect cat breed based on personality and behavioral traits.
 
-**Project Images**
+<img width="1757" height="715" alt="image" src="https://github.com/user-attachments/assets/feb99c95-334f-47d7-bb77-84437df06347" />
 <img width="3479" height="1958" alt="image" src="https://github.com/user-attachments/assets/24277c8f-26ec-4ab7-9b85-312a3bb61baf" />
 <img width="1413" height="981" alt="image" src="https://github.com/user-attachments/assets/3030387d-8ac9-4250-adac-be40befab16a" />
 <img width="5653" height="3924" alt="image" src="https://github.com/user-attachments/assets/65730d06-9d17-4bdd-9724-8443973cb5f9" />
-<img width="1757" height="715" alt="image" src="https://github.com/user-attachments/assets/feb99c95-334f-47d7-bb77-84437df06347" />
 
 ---
 
@@ -49,7 +48,7 @@ We extend our sincere gratitude to the authors of the original dataset for makin
 
 ## Creators
 
-This project was created by a team of students from MIT Institute of Design (UXD).
+This project was created by a team of students from MIT Institute of Design (UXD) (https://www.mitid.edu.in/).
 
 * **Navaneeth Sankar K P** - [LinkedIn](https://www.linkedin.com/in/navaneeth-sankar-k-p/)
 * **Samridhi** - [LinkedIn](https://www.linkedin.com/in/samridhi-751142321/)
