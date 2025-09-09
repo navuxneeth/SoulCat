@@ -30,7 +30,7 @@ You can view our detailed Figma prototype, which includes additional visualizati
 
 **[View the Figma Prototype](https://www.figma.com/proto/gpBWghBCxoH61GiiCZ0n4Y/information-visualisation?node-id=215-4&t=2rjbOk84X56tCyrp-0&scaling=scale-down&content-scaling=fixed&page-id=130%3A2093&starting-point-node-id=215%3A4)**
 
-> For our project, we designed a fun and interactive dashboard based on a cat dataset. At first glance, it shows simple summaries of gender and age. Off to the side, there’s a playful illustration of different cats—and when you hover over any one of them, you get to see their unique details like weight, breed, and personality traits. We also added correlation graphs and a radar chart to explore how behavior and personality vary across different breeds, making the data both insightful and engaging.
+> For our project, we designed a fun and interactive dashboard based on a cat dataset. At first glance, it shows simple summaries of gender and age. Off to the side, there’s a playful illustration of different cats, and when you hover over any one of them, you get to see their unique details like weight, breed, and personality traits. We also added correlation graphs and a radar chart to explore how behavior and personality vary across different breeds, making the data both insightful and engaging.
 
 ---
 
