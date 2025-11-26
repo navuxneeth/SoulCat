@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>FIND YOUR SOUL CAT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="Webpage/favicon.png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Fredoka', sans-serif;
+      background: rgb(254, 244, 232);
+      color: rgb(27, 41, 64);
+      text-transform: uppercase;
+    }
+    /* Two-column layout */
+    .main-container {
+      display: flex;
+      height: 100%;
+      gap: 20px;
+      padding: 10px; /* Add some padding to main-container for spacing on edges */
+      box-sizing: border-box; /* Include padding in height/width calculations */
+    }
+    .left-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .right-column {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      /* height: 100%; /* This was potentially problematic with flex:1 children */
+      box-sizing: border-box;
+    }
+    .slider-section {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 10px; /* Space before footer or end of column */
+      min-height: 0; /* MODIFIED: Ensures the flex item can shrink properly */
+    }
+    /* Left footer now split into text and image halves */
+    .left-footer {
+      /* MODIFIED: Removed absolute positioning to keep it in the layout flow */
+      flex-shrink: 0; /* MODIFIED: Prevents the footer from shrinking */
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      box-sizing: border-box;
+    }
+    .left-footer-text {
+      width: 50%;
+      margin: 5px;
+      display: flex;
+      flex-direction: column;
+      height: 220px; /* ADDED: Match cat image height for internal alignment */
+    }
+    .left-footer-text h1,
+    .left-footer-text h2,
+    .left-footer-text .controls {
+      margin-left: 0; /* Ensure no unintended horizontal shift from this general rule */
+      margin-right: 0;
+      /* Vertical margins are more specifically controlled below or by default */
+    }
+      .left-footer-text h2{
+         margin-top: 5px; /* Standard top margin for h2 */
+         margin-bottom: 5px; /* Standard bottom margin for h2 */
+      }
+    /* Added spacing for H1 (if it were present) */
+    .left-footer-text h1 {
+      margin-bottom: 15px;
+    }
+    /* Styling for the breed name display */
+    .breed-name-display {
+      display: block;
+      font-size: 1.8em;
+      color: rgb(239, 137, 131);
+      line-height: 1.2;
+    }
+    .left-footer-image {
+      width: 50%;
+      display: flex;
+      justify-content: flex-end;
+      /* align-items: flex-start; Ensures image itself aligns top if needed, though its height is fixed */
+    }
+    /* Remove Behaviour Traits title */
+    .section-title {
+      display: none;
+    }
+    .controls {
+      text-align: left;
+      margin-top: 0; /* MODIFIED: Was 5px, now 0 for button top alignment */
+      margin-bottom: 10px; /* Spacing between button and breed text */
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .slider-container, .behaviour-row {
+      margin: 10px 0;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #fff;
+    }
+    .control-label {
+      font-size: 14px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: rgb(27, 41, 64);
+    }
+    .control-value {
+      font-size: 18px;
+      margin-bottom: 5px;
+      color: rgb(27, 41, 64);
+    }
+    input[type="range"] {
+      width: 100%;
+      -webkit-appearance: none;
+      background: transparent;
+      cursor: pointer;
+      --value-percent: 0%;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 8px;
+      background: linear-gradient(to right, #6794ab 0%, #6794ab var(--value-percent), #ccc var(--value-percent), #ccc 100%);
+      border-radius: 5px;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 28px;
+      width: 28px;
+      background-image: url('Webpage/paw_button.webp');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-color: transparent;
+      border: none;
+      margin-top: -10px;
+    }
+    input[type="range"]:focus {
+      outline: none;
+    }
+    .option-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 5px;
+    }
+    .option {
+      flex: 1;
+      padding: 5px;
+      text-align: center;
+      border: 1px solid rgb(67, 111, 133);
+      border-radius: 3px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 12px;
+      color: rgb(27, 41, 64);
+    }
+    .option.selected {
+      background: rgb(239, 137, 131);
+      color: #fff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 5px;
+      background: transparent;
+    }
+    #lockToggle.off {
+      border: 1px solid rgb(67, 111, 133);
+      color: rgb(67, 111, 133);
+    }
+    #lockToggle.on {
+      background: rgb(67, 111, 133);
+      color: #fff;
+      border: none;
+    }
+    #catImage {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .footer-credit {
+      font-size: 11px;
+      color: grey;
+      margin-top: auto; /* MODIFIED: Was 10px, now auto to push to bottom of fixed height container */
+      margin-bottom: 0;
+      margin-left: 0;
+      margin-right: 0;
+      line-height: 1.2;
+    }
+
+#behaviourControls { /* Ensure this section in right column also scrolls */
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 860px) { /* Adjusted breakpoint for better layout transition */
+  html, body {
+    height: auto; /* Allow document to grow */
+    min-height: 100vh; /* Ensure it at least fills viewport */
+  }
+  .main-container {
+    flex-direction: column;
+    height: auto; /* Content defines height */
+    gap: 10px; /* Reduce gap for stacked columns */
+    padding: 5px; /* Reduce padding for smaller screens */
+  }
+
+  .left-column, .right-column {
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: auto;
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px; /* Add some space between stacked columns */
+  }
+
+  .slider-section {
+    flex: 0 1 auto; /* Prevent taking too much space, allow shrink */
+    max-height: 50vh; /* Limit height to prevent excessive scrolling for this section */
+    margin-bottom: 10px; /* Ensure space before static footer */
+  }
+ 
+  #behaviourControls {
+    max-height: 50vh; /* Limit height for behaviour controls as well */
+  }
+
+  .left-footer {
+    position: static; /* Change from absolute to flow with content */
+    margin-top: 15px; /* Space above the footer section */
+    flex-direction: column; /* Stack text and image */
+    align-items: center; /* Center stacked items */
+    width: 100%; /* Take full width of parent's content box */
+  }
+
+  .left-footer-text, .left-footer-image {
+    width: 95%; /* Allow some padding visually */
+    max-width: 450px; /* Max width for these blocks */
+    margin: 10px 0; /* Vertical spacing */
+  }
+
+  .left-footer-text {
+    height: auto; /* Natural height for content */
+    align-items: center; /* Center items like button, h2 block */
+  }
+  .left-footer-text h1,
+  .left-footer-text h2,
+  .left-footer-text .controls {
+    text-align: center; /* Center text within these elements */
+    margin-left: auto; /* Center the block if it's narrower than parent */
+    margin-right: auto;
+  }
+    .footer-credit {
+       margin-top: 10px; /* Add some space above credit when footer text height is auto */
+       text-align: center; /* Center credit text */
+    }
+
+
+  .left-footer-image {
+    justify-content: center; /* Center the image if it's smaller than this container */
+  }
+
+  #catImage {
+    max-width: 100%; /* Allow image to scale down */
+    width: 200px; /* Set a specific smaller size for mobile */
+    height: 200px; /* Maintain aspect ratio or make it square */
+  }
+
+  .breed-name-display {
+    font-size: 1.6em; /* Slightly smaller breed name */
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px; /* Adjust base font size for rem units if used, or affects ems */
+  }
+  .main-container {
+    padding: 5px 2px; /* Minimal padding */
+  }
+
+  .control-label {
+    font-size: 13px;
+  }
+  .control-value {
+    font-size: 17px;
+  }
+  .option-group {
+    flex-wrap: wrap; /* Allow behaviour options to wrap */
+    gap: 4px;
+  }
+  .option {
+    font-size: 11px;
+    padding: 5px 3px; /* Adjust padding */
+    flex-grow: 1; /* Allow options to grow and fill wrapped lines */
+    flex-basis: calc(33.333% - 10px); /* Aim for 3 per row, adjust based on gap */
+    min-width: 70px; /* Minimum width before wrapping heavily */
+  }
+
+  button { /* General button styling */
+    padding: 8px 15px;
+    font-size: 13px;
+  }
+  #lockToggle { /* Specific button if needed */
+    width: 90%;
+    max-width: 250px; /* Prevent button from being too wide */
+    box-sizing: border-box;
+  }
+
+  .breed-name-display {
+    font-size: 1.4em;
+  }
+
+  #catImage {
+    width: 160px;
+    height: 160px;
+  }
+
+  .left-footer-text h2 {
+    font-size: 1.1em; /* Adjust header in footer */
+  }
+    .footer-credit {
+    font-size: 10px;
+  }
+
+  .slider-section, #behaviourControls {
+    max-height: 45vh; /* Further constrain scrollable areas */
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="left-column">
+      <div class="slider-section" id="personalityControls">
+      </div>
+      <div class="left-footer">
+        <div class="left-footer-text">
+          <div class="controls">
+            <button id="lockToggle" class="off">LOCK SLIDERS: OFF</button>
+          </div>
+          <h2 id="currentBreed">RECOMMENDED BREED: -</h2>
+          <p class="footer-credit">Made by Navaneeth, Samridhi, Advika, Anwesha | MIT-ID UXD </p>
+        </div>
+        <div class="left-footer-image">
+          <img id="catImage" src="" alt="CAT IMAGE">
+        </div>
+      </div>
+    </div>
+    <div class="right-column">
+      <div id="behaviourControls">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== Global Settings & Data ===== */
+    let lockMode = false;
+    const lockToggleBtn = document.getElementById("lockToggle");
+    lockToggleBtn.addEventListener("click", () => {
+      lockMode = !lockMode;
+      if (lockMode) {
+        lockToggleBtn.textContent = "LOCK SLIDERS: ON";
+        lockToggleBtn.classList.remove("off");
+        lockToggleBtn.classList.add("on");
+      } else {
+        lockToggleBtn.textContent = "LOCK SLIDERS: OFF";
+        lockToggleBtn.classList.remove("on");
+        lockToggleBtn.classList.add("off");
+        personalityLocked = Array(personalityTraits.length).fill(false);
+        behaviourLocked = Array(behaviourTraits.length).fill(false);
+      }
+    });
+
+    const personalityTraits = [
+      "FEARFULNESS", "HUMAN AGGRESSION", "ACTIVITY/PLAYFULNESS", "CAT SOCIABILITY",
+      "HUMAN SOCIABILITY", "LITTERBOX ISSUES", "EXCESSIVE GROOMING"
+    ];
+
+    const behaviourTraits = [
+      "SEEKS PHYSICAL CONTACT", "RESTS IN SECURE PLACES", "REFUSES DIRTY LITTER BOX",
+      "GREETS UNFAMILIAR CHILDREN", "TALKS TO PEOPLE", "GROWLS AT VET", "MAINTAINS EYE CONTACT",
+      "SCRATCH WHEN BELLY PETTED", "STALKS MOVING OBJECTS", "COMES WHEN CALLED",
+      "FINDS NEW WAYS FOR ATTENTION", "RESTLESS WHEN OWNER LEAVES"
+    ];
+
+    const behaviourOptions = ["VERY RARELY", "RARELY", "SOMETIMES", "OFTEN", "VERY OFTEN"];
+    const behaviourMapping = {
+      "VERY RARELY": 1, "RARELY": 2, "SOMETIMES": 3, "OFTEN": 4, "VERY OFTEN": 5
+    };
+
+    const breedPersonalityProfiles = [
+      { breed: "BENGAL", values: [0.00, 1.29, 2.54, 3.41, 3.05, 4.53, 1.73] },
+      { breed: "BURMESE", values: [3.86, 3.50, 2.37, 4.49, 1.72, 4.28, 3.52] },
+      { breed: "CORNISH REX", values: [1.60, 2.66, 4.72, 4.70, 4.32, 1.01, 1.84] },
+      { breed: "HOUSE CAT", values: [4.68, 1.60, 2.28, 1.68, 4.00, 1.42, 3.69] },
+      { breed: "MAINE COON", values: [1.27, 1.31, 4.03, 3.41, 3.39, 1.60, 4.36] },
+      { breed: "RAGDOLL", values: [1.48, 1.40, 3.53, 5.00, 3.57, 1.17, 1.56] },
+      { breed: "RUSSIAN BLUE", values: [1.82, 1.66, 5.00, 3.37, 3.51, 1.78, 1.48] }
+    ];
+
+    const breedBehaviourProfiles = [
+      { breed: "BENGAL",       values: [5, 3, 3, 3, 5, 1, 4, 1, 5, 4, 3, 2] },
+      { breed: "BURMESE",      values: [5, 3, 2, 4, 5, 1, 4, 1, 5, 3, 2, 3] },
+      { breed: "CORNISH REX",  values: [5, 3, 2, 3, 5, 1, 4, 1, 5, 4, 5, 1] },
+      { breed: "HOUSE CAT",    values: [4, 3, 3, 3, 4, 2, 4, 3, 5, 4, 3, 4] },
+      { breed: "MAINE COON",   values: [5, 2, 2, 3, 5, 1, 4, 2, 4, 4, 3, 1] },
+      { breed: "RAGDOLL",      values: [4, 3, 3, 3, 5, 1, 4, 1, 4, 4, 3, 3] },
+      { breed: "RUSSIAN BLUE", values: [5, 4, 2, 3, 5, 2, 5, 1, 5, 3, 3, 2] }
+    ];
+
+    let personalityState = [...breedPersonalityProfiles[0].values];
+    let behaviourState = [...breedBehaviourProfiles[0].values];
+
+    let personalityLocked = Array(personalityTraits.length).fill(false);
+    let behaviourLocked = Array(behaviourTraits.length).fill(false);
+
+    const personalityContainer = document.getElementById("personalityControls");
+    const behaviourContainer = document.getElementById("behaviourControls");
+
+    personalityTraits.forEach((trait, index) => {
+      const container = document.createElement("div");
+      container.classList.add("slider-container");
+
+      const label = document.createElement("div");
+      label.classList.add("control-label");
+      label.textContent = trait;
+      container.appendChild(label);
+
+      const valueDisplay = document.createElement("div");
+      valueDisplay.classList.add("control-value");
+      valueDisplay.textContent = personalityState[index].toFixed(2);
+      container.appendChild(valueDisplay);
+
+      const slider = document.createElement("input");
+      slider.type = "range";
+      slider.min = "0";
+      slider.max = "5";
+      slider.step = "0.01";
+      slider.value = personalityState[index];
+      slider.dataset.index = index;
+
+      slider.addEventListener("input", (e) => {
+        const idx = parseInt(e.target.dataset.index);
+        personalityState[idx] = parseFloat(e.target.value);
+        valueDisplay.textContent = personalityState[idx].toFixed(2);
+
+        const percent = (parseFloat(e.target.value) - parseFloat(e.target.min)) / (parseFloat(e.target.max) - parseFloat(e.target.min)) * 100;
+        e.target.style.setProperty('--value-percent', `${percent}%`);
+
+        updateInterpolatedState("personality", idx);
+      });
+
+      slider.addEventListener("blur", (e) => {
+        if (lockMode) {
+          const idx = parseInt(e.target.dataset.index);
+          personalityLocked[idx] = true;
+        }
+      });
+
+      container.appendChild(slider);
+      personalityContainer.appendChild(container);
+    });
+
+    document.querySelectorAll('#personalityControls input[type="range"]').forEach(s => {
+        const percent = (parseFloat(s.value) - parseFloat(s.min)) / (parseFloat(s.max) - parseFloat(s.min)) * 100;
+        s.style.setProperty('--value-percent', `${percent}%`);
+    });
+
+    behaviourTraits.forEach((behave, index) => {
+      const row = document.createElement("div");
+      row.classList.add("behaviour-row");
+
+      const label = document.createElement("div");
+      label.classList.add("control-label");
+      label.textContent = behave;
+      row.appendChild(label);
+
+      const optionGroup = document.createElement("div");
+      optionGroup.classList.add("option-group");
+
+      behaviourOptions.forEach((optionText) => {
+        const option = document.createElement("div");
+        option.classList.add("option");
+        option.textContent = optionText;
+        if (behaviourMapping[optionText] === behaviourState[index]) {
+          option.classList.add("selected");
+        }
+        option.dataset.row = index;
+        option.dataset.value = behaviourMapping[optionText];
+
+        option.addEventListener("click", (e) => {
+          const rowIndex = parseInt(e.target.dataset.row);
+          const newValue = parseInt(e.target.dataset.value);
+          behaviourState[rowIndex] = newValue;
+          Array.from(optionGroup.children).forEach(child => {
+            child.classList.remove("selected");
+          });
+          e.target.classList.add("selected");
+          updateInterpolatedState("behaviour", rowIndex);
+        });
+
+        option.addEventListener("blur", (e) => {
+          if (lockMode) {
+            const rowIndex = parseInt(e.target.dataset.row);
+            behaviourLocked[rowIndex] = true;
+          }
+        });
+
+        optionGroup.appendChild(option);
+      });
+
+      row.appendChild(optionGroup);
+      behaviourContainer.appendChild(row);
+    });
+
+    function sqDistance(arrA, arrB) {
+      let sumSq = 0;
+      for (let i = 0; i < arrA.length; i++) {
+        const diff = arrA[i] - arrB[i];
+        sumSq += diff * diff;
+      }
+      return sumSq;
+    }
+
+    function updateInterpolatedState(changedSection, changedIndex) {
+      const epsilon = 0.01;
+      const alpha = 1.5;
+
+      let weights = [];
+      for (let k = 0; k < breedPersonalityProfiles.length; k++) {
+        const dPersonality = sqDistance(personalityState, breedPersonalityProfiles[k].values);
+        const dBehaviour = sqDistance(behaviourState, breedBehaviourProfiles[k].values);
+        const combinedDist = dPersonality + alpha * dBehaviour;
+        weights[k] = 1 / (combinedDist + epsilon);
+      }
+      const weightSum = weights.reduce((a, b) => a + b, 0);
+      weights = weights.map(w => w / weightSum);
+
+      let newPersonality = [];
+      for (let j = 0; j < personalityTraits.length; j++) {
+        let val = 0;
+        for (let k = 0; k < breedPersonalityProfiles.length; k++) {
+          val += weights[k] * breedPersonalityProfiles[k].values[j];
+        }
+        newPersonality[j] = val;
+      }
+
+      let newBehaviour = [];
+      for (let j = 0; j < behaviourTraits.length; j++) {
+        let val = 0;
+        for (let k = 0; k < breedPersonalityProfiles.length; k++) {
+          val += weights[k] * breedBehaviourProfiles[k].values[j];
+        }
+        newBehaviour[j] = val;
+      }
+
+      if (changedSection === "personality") {
+        newPersonality[changedIndex] = personalityState[changedIndex];
+      } else if (changedSection === "behaviour") {
+        newBehaviour[changedIndex] = behaviourState[changedIndex];
+      }
+      for (let i = 0; i < personalityLocked.length; i++) {
+        if (personalityLocked[i]) {
+          newPersonality[i] = personalityState[i];
+        }
+      }
+      for (let i = 0; i < behaviourLocked.length; i++) {
+        if (behaviourLocked[i]) {
+          newBehaviour[i] = behaviourState[i];
+        }
+      }
+
+      personalityState = newPersonality;
+      behaviourState = newBehaviour;
+
+      updateCombinedBreed();
+      updatePersonalityUI();
+      updateBehaviourUI();
+    }
+
+    function updateCombinedBreed() {
+      let bestMatch = breedPersonalityProfiles[0];
+      let bestDist = combinedDistance(0);
+      for (let i = 1; i < breedPersonalityProfiles.length; i++) {
+        const d = combinedDistance(i);
+        if (d < bestDist) {
+          bestDist = d;
+          bestMatch = breedPersonalityProfiles[i];
+        }
+      }
+      document.getElementById("currentBreed").innerHTML = "RECOMMENDED BREED:<br><span class='breed-name-display'>" + bestMatch.breed + "!</span>";
+      updateCatImage(bestMatch.breed);
+    }
+
+    function combinedDistance(i) {
+      const d1 = sqDistance(personalityState, breedPersonalityProfiles[i].values);
+      const d2 = sqDistance(behaviourState, breedBehaviourProfiles[i].values);
+      return d1 + d2;
+    }
+
+    function updatePersonalityUI() {
+      const containers = document.querySelectorAll("#personalityControls .slider-container");
+      containers.forEach((container, index) => {
+        const slider = container.querySelector("input[type='range']");
+        const valueDisplay = container.querySelector(".control-value");
+        slider.value = personalityState[index];
+        valueDisplay.textContent = personalityState[index].toFixed(2);
+
+        const percent = (parseFloat(slider.value) - parseFloat(slider.min)) / (parseFloat(slider.max) - parseFloat(slider.min)) * 100;
+        slider.style.setProperty('--value-percent', `${percent}%`);
+      });
+    }
+
+    function updateBehaviourUI() {
+      const rows = document.querySelectorAll("#behaviourControls .behaviour-row");
+      rows.forEach((row, index) => {
+        const optionGroup = row.querySelector(".option-group");
+        const displayedVal = Math.round(behaviourState[index]);
+        Array.from(optionGroup.children).forEach(option => {
+          option.classList.toggle("selected", parseInt(option.dataset.value) === displayedVal);
+        });
+      });
+    }
+
+    function updateCatImage(breed) {
+      const catImage = document.getElementById("catImage");
+      let fileName = "";
+      switch(breed) {
+        case "BENGAL": fileName = "Webpage/bengal.webp"; break;
+        case "BURMESE": fileName = "Webpage/burmese.webp"; break;
+        case "CORNISH REX": fileName = "Webpage/cornish_rex.webp"; break;
+        case "HOUSE CAT": fileName = "Webpage/house_cat.webp"; break;
+        case "MAINE COON": fileName = "Webpage/maine_coon.webp"; break;
+        case "RAGDOLL": fileName = "Webpage/rag_doll.webp"; break;
+        case "RUSSIAN BLUE": fileName = "Webpage/russian_blue.webp"; break;
+        default: fileName = "";
+      }
+      catImage.src = fileName;
+    }
+
+    updateCombinedBreed();
+  </script>
+
+</body>
+</html>
